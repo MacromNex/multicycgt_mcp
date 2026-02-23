@@ -1,0 +1,47 @@
+{
+  "test_date": "2026-01-01T03:39:19.254364",
+  "env_path": "/home/xux/Desktop/CycPepMCP/CycPepMCP/tool-mcps/multicycgt_mcp/env",
+  "server_path": "/home/xux/Desktop/CycPepMCP/CycPepMCP/tool-mcps/multicycgt_mcp/src/server.py",
+  "tests": {
+    "server_startup": {
+      "status": "passed",
+      "tool_count": 8,
+      "tools": [
+        "get_job_status",
+        "get_job_result",
+        "get_job_log",
+        "cancel_job",
+        "list_jobs",
+        "predict_membrane_permeability",
+        "submit_peptide_analysis",
+        "submit_model_training"
+      ]
+    },
+    "sync_prediction": {
+      "status": "passed",
+      "result": -2.647296,
+      "input_smiles": "CC(=O)NC1CCCC1C(=O)O"
+    },
+    "submit_workflow": {
+      "status": "failed",
+      "error": "Job 454c0abc failed"
+    },
+    "error_handling": {
+      "status": "failed",
+      "error": "Invalid JSON response"
+    },
+    "job_management": {
+      "status": "passed",
+      "total_jobs": 13,
+      "jobs_listed": 13
+    }
+  },
+  "issues": [],
+  "summary": {
+    "total_tests": 5,
+    "passed": 3,
+    "failed": 2,
+    "pass_rate": "60.0%",
+    "overall_status": "FAILED"
+  }
+}

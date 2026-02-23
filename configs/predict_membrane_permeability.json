@@ -1,0 +1,45 @@
+{
+  "_description": "Configuration for cyclic peptide membrane permeability prediction",
+  "_source": "Extracted from examples/use_case_1_predict_membrane_permeability.py",
+
+  "device": "cpu",
+  "prediction_mode": "heuristic",
+
+  "amino_acid_properties": {
+    "_description": "LogP and TPSA values for amino acids and custom monomers",
+    "A": {"logp": 0.31, "tpsa": 43.09},
+    "R": {"logp": -1.01, "tpsa": 125.22},
+    "N": {"logp": -0.6, "tpsa": 92.42},
+    "D": {"logp": -0.77, "tpsa": 83.55},
+    "C": {"logp": 0.24, "tpsa": 44.76},
+    "Q": {"logp": -0.22, "tpsa": 105.15},
+    "E": {"logp": -0.64, "tpsa": 96.28},
+    "G": {"logp": 0.0, "tpsa": 43.09},
+    "H": {"logp": -0.07, "tpsa": 68.13},
+    "I": {"logp": 0.73, "tpsa": 43.09},
+    "L": {"logp": 0.73, "tpsa": 43.09},
+    "K": {"logp": -0.99, "tpsa": 102.78},
+    "M": {"logp": 0.26, "tpsa": 54.37},
+    "F": {"logp": 1.79, "tpsa": 43.09},
+    "P": {"logp": 0.72, "tpsa": 32.34},
+    "S": {"logp": -0.04, "tpsa": 63.32},
+    "T": {"logp": 0.26, "tpsa": 63.32},
+    "W": {"logp": 2.25, "tpsa": 56.17},
+    "Y": {"logp": 0.96, "tpsa": 63.32},
+    "V": {"logp": 0.54, "tpsa": 43.09},
+    "meA": {"logp": 0.1354, "tpsa": 20.31},
+    "meL": {"logp": 1.1616, "tpsa": 20.31},
+    "dP": {"logp": 0.2795, "tpsa": 20.31},
+    "meF": {"logp": 1.3582, "tpsa": 20.31},
+    "dL": {"logp": 0.8194, "tpsa": 29.1},
+    "Me_dL": {"logp": 1.1616, "tpsa": 20.31}
+  },
+
+  "heuristic_weights": {
+    "_description": "Weights for heuristic PAMPA prediction formula",
+    "mol_wt": -0.001,
+    "tpsa": -0.01,
+    "logp": 0.5,
+    "base": -2.0
+  }
+}

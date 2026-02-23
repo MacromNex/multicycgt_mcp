@@ -1,0 +1,47 @@
+{
+  "_description": "Configuration for cyclic peptide property analysis",
+  "_source": "Extracted from examples/use_case_3_analyze_peptide_properties.py",
+
+  "target_column": "PAMPA",
+
+  "molecular_properties": [
+    "MolWt",
+    "MolLogP",
+    "TPSA",
+    "NumHDonors",
+    "NumHAcceptors",
+    "NumRotatableBonds",
+    "HeavyAtomCount",
+    "RingCount",
+    "AromaticRings",
+    "SaturatedRings",
+    "HeterocycleCount",
+    "FractionCSP3",
+    "MaxEStateIndex",
+    "MinEStateIndex",
+    "qed",
+    "BertzCT",
+    "LabuteASA",
+    "MolMR"
+  ],
+
+  "amino_acids": {
+    "_description": "Amino acid classification for analysis",
+    "hydrophobic": ["L", "I", "F", "W", "V", "meL", "meF"],
+    "polar": ["S", "T", "N", "Q", "Y"],
+    "charged": ["R", "K", "D", "E", "H"],
+    "custom": ["meA", "L", "meL", "F", "meF", "P", "dP", "T", "dL", "Me_dL"]
+  },
+
+  "visualization": {
+    "_description": "Visualization settings",
+    "dpi": 300,
+    "figsize": {
+      "distributions": [20, 16],
+      "heatmap": [12, 10],
+      "correlations": [10, 8],
+      "permeability": [15, 10],
+      "pca": [12, 8]
+    }
+  }
+}

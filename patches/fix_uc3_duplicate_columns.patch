@@ -1,0 +1,20 @@
+--- a/examples/use_case_3_analyze_peptide_properties.py
++++ b/examples/use_case_3_analyze_peptide_properties.py
+@@ -470,7 +470,15 @@ def main():
+     print("Analyzing sequence properties...")
+     seq_properties = analyzer.analyze_sequence_properties(data)
+
+-    # Combine all data
++    # Remove duplicate columns before concatenation
++    existing_cols = set(data.columns)
++    mol_properties_clean = mol_properties[[col for col in mol_properties.columns if col not in existing_cols]]
++    seq_properties_clean = seq_properties[[col for col in seq_properties.columns if col not in existing_cols and col not in mol_properties_clean.columns]]
++
++    print(f"Keeping {len(mol_properties_clean.columns)} new molecular properties")
++    print(f"Keeping {len(seq_properties_clean.columns)} new sequence properties")
++
++    # Combine all data without duplicates
+-    combined_data = pd.concat([data, mol_properties, seq_properties], axis=1)
++    combined_data = pd.concat([data, mol_properties_clean, seq_properties_clean], axis=1)
+
+     print("Generating visualizations...")

@@ -1,0 +1,41 @@
+{
+  "_description": "Configuration for Multi_CycGT model training",
+  "_source": "Extracted from examples/use_case_2_train_multicycgt_model.py",
+
+  "epochs": 100,
+  "batch_size": 32,
+  "learning_rate": 0.001,
+  "test_split": 0.2,
+  "val_split": 0.2,
+  "device": "auto",
+
+  "model": {
+    "_description": "Multi_CycGT model architecture parameters",
+    "hidden_dim": 128,
+    "num_heads": 8,
+    "num_layers": 2,
+    "dropout": 0.1,
+    "seq_max_len": 20
+  },
+
+  "training": {
+    "_description": "Training hyperparameters",
+    "weight_decay": 1e-5,
+    "scheduler_patience": 10,
+    "scheduler_factor": 0.5
+  },
+
+  "feature_columns": [
+    "MolWt",
+    "MolLogP",
+    "TPSA",
+    "NumHDonors",
+    "NumHAcceptors",
+    "NumRotatableBonds",
+    "HeavyAtomCount",
+    "RingCount",
+    "MaxEStateIndex",
+    "MinEStateIndex",
+    "qed"
+  ]
+}
