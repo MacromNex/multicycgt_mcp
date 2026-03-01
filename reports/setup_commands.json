@@ -1,0 +1,10 @@
+{
+  "setup_commands": [
+    "(command -v mamba >/dev/null 2>&1 && mamba create -p ./env python=3.10 -y) || (command -v conda >/dev/null 2>&1 && conda create -p ./env python=3.10 -y) || (echo \"Warning: Neither mamba nor conda found, creating venv instead\" && python3 -m venv ./env)",
+    "./env/bin/pip install fastmcp loguru pandas numpy tqdm click",
+    "(command -v mamba >/dev/null 2>&1 && mamba install -p ./env pytorch torchvision cpuonly -c pytorch -y) || (command -v conda >/dev/null 2>&1 && conda install -p ./env pytorch torchvision cpuonly -c pytorch -y) || ./env/bin/pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu",
+    "(command -v mamba >/dev/null 2>&1 && mamba install -p ./env -c conda-forge rdkit -y) || (command -v conda >/dev/null 2>&1 && conda install -p ./env -c conda-forge rdkit -y) || ./env/bin/pip install rdkit",
+    "(command -v mamba >/dev/null 2>&1 && mamba install -p ./env scikit-learn matplotlib seaborn scipy -y) || (command -v conda >/dev/null 2>&1 && conda install -p ./env scikit-learn matplotlib seaborn scipy -y) || ./env/bin/pip install scikit-learn matplotlib seaborn scipy",
+    "./env/bin/pip install --ignore-installed fastmcp"
+  ]
+}

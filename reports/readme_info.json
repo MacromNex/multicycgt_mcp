@@ -1,0 +1,238 @@
+{
+  "project_name": "cycpep-tools",
+  "description": "MCP tools for cyclic peptide computational analysis using Graph Convolutional Networks and Transformer architectures",
+  "version": "1.0.0",
+  "created_date": "2026-01-01",
+  "mcp_server_path": "src/mcp_server.py",
+  "cli_server_path": "src/server.py",
+  "environments": {
+    "main": {
+      "path": "./env",
+      "python_version": "3.10",
+      "purpose": "Main MCP environment with FastMCP compatibility"
+    },
+    "legacy": {
+      "path": "./env_py39",
+      "python_version": "3.9",
+      "purpose": "Legacy environment with Multi_CycGT dependencies"
+    }
+  },
+  "tools": [
+    {
+      "name": "predict_membrane_permeability",
+      "type": "sync",
+      "description": "Predict PAMPA membrane permeability for cyclic peptides",
+      "runtime": "15-30 seconds",
+      "parameters": ["smiles", "sequence", "input_file", "output_file", "config_file"],
+      "example_prompt": "Calculate membrane permeability for cyclic peptide SMILES: CC(C)C[C@@H]1NC(=O)...",
+      "source_script": "scripts/predict_membrane_permeability.py"
+    },
+    {
+      "name": "submit_peptide_analysis",
+      "type": "submit",
+      "description": "Comprehensive analysis of cyclic peptide properties with visualizations",
+      "runtime": "1-5 minutes",
+      "parameters": ["input_file", "output_dir", "target_column", "config_file", "job_name"],
+      "example_prompt": "Submit comprehensive analysis for @examples/data/sample_small.csv with job name 'analysis_v1'",
+      "source_script": "scripts/analyze_peptide_properties.py",
+      "outputs": [
+        "property_distributions.png",
+        "correlation_heatmap.png",
+        "target_correlations.png",
+        "pca_analysis.png",
+        "pca_scatter.png",
+        "permeability_analysis.png",
+        "analysis_report.md",
+        "processed_peptide_data.csv"
+      ]
+    },
+    {
+      "name": "submit_model_training",
+      "type": "submit",
+      "description": "Train Multi_CycGT GCN-Transformer model for membrane permeability prediction",
+      "runtime": "30 seconds - hours",
+      "parameters": ["input_file", "output_dir", "epochs", "batch_size", "learning_rate", "test_split", "val_split", "config_file", "job_name"],
+      "example_prompt": "Submit model training for @examples/data/sample_small.csv with 10 epochs and batch size 4",
+      "source_script": "scripts/train_multicycgt_model.py",
+      "outputs": [
+        "multicycgt_final.pth",
+        "training_history.csv"
+      ]
+    },
+    {
+      "name": "get_job_status",
+      "type": "job_management",
+      "description": "Check job progress and timestamps",
+      "parameters": ["job_id"]
+    },
+    {
+      "name": "get_job_result",
+      "type": "job_management",
+      "description": "Get completed job results and output files",
+      "parameters": ["job_id"]
+    },
+    {
+      "name": "get_job_log",
+      "type": "job_management",
+      "description": "View job execution logs with tail support",
+      "parameters": ["job_id", "tail"]
+    },
+    {
+      "name": "cancel_job",
+      "type": "job_management",
+      "description": "Cancel running job",
+      "parameters": ["job_id"]
+    },
+    {
+      "name": "list_jobs",
+      "type": "job_management",
+      "description": "List all jobs with optional status filter",
+      "parameters": ["status"]
+    }
+  ],
+  "scripts": [
+    {
+      "name": "predict_membrane_permeability.py",
+      "description": "Predict PAMPA permeability values using heuristic model",
+      "example_command": "python scripts/predict_membrane_permeability.py --smiles 'CC(C)C[C@@H]1NC(=O)...'",
+      "parameters": ["--smiles", "--input", "--output", "--sequence", "--config"],
+      "tested": true
+    },
+    {
+      "name": "train_multicycgt_model.py",
+      "description": "Train Multi_CycGT GCN-Transformer model",
+      "example_command": "python scripts/train_multicycgt_model.py --input examples/data/sample_small.csv --epochs 10",
+      "parameters": ["--input", "--epochs", "--batch_size", "--learning_rate", "--output_dir"],
+      "tested": true
+    },
+    {
+      "name": "analyze_peptide_properties.py",
+      "description": "Comprehensive molecular and sequence property analysis",
+      "example_command": "python scripts/analyze_peptide_properties.py --input examples/data/sample_small.csv --output_dir analysis/",
+      "parameters": ["--input", "--output_dir", "--target_column", "--config"],
+      "tested": true
+    }
+  ],
+  "demo_data": [
+    {
+      "file": "sample_peptides.csv",
+      "description": "Full CycPeptMPDB dataset with 3000+ cyclic peptides",
+      "size": "12MB",
+      "peptide_count": 3000,
+      "used_by": ["all tools"],
+      "example_data": "Production datasets with complete molecular descriptors"
+    },
+    {
+      "file": "sample_small.csv",
+      "description": "Small test dataset for quick testing",
+      "size": "33KB",
+      "peptide_count": 19,
+      "used_by": ["all tools"],
+      "example_data": "Testing and development"
+    },
+    {
+      "file": "sequences/vocab.txt",
+      "description": "SMILES vocabulary for tokenization",
+      "size": "<1KB",
+      "used_by": ["reference"],
+      "example_data": "SMILES tokenization vocabulary"
+    }
+  ],
+  "configs": [
+    {
+      "file": "predict_membrane_permeability.json",
+      "description": "Configuration for permeability prediction with amino acid properties",
+      "parameters": {
+        "amino_acid_properties": "LogP and TPSA values for 26 amino acid types",
+        "heuristic_weights": "Weights for molecular weight, TPSA, LogP, and base value",
+        "device": "cpu",
+        "prediction_mode": "heuristic"
+      }
+    },
+    {
+      "file": "train_multicycgt_model.json",
+      "description": "Configuration for Multi_CycGT model training",
+      "parameters": {
+        "epochs": 100,
+        "batch_size": 32,
+        "model_architecture": "GCN + Transformer + FC layers",
+        "training_hyperparameters": "Learning rate, optimizer settings"
+      }
+    },
+    {
+      "file": "analyze_peptide_properties.json",
+      "description": "Configuration for peptide property analysis",
+      "parameters": {
+        "target_column": "PAMPA",
+        "molecular_properties": "List of RDKit descriptors",
+        "amino_acids": "Standard and modified amino acid definitions",
+        "visualization": "Plot settings and parameters"
+      }
+    }
+  ],
+  "installation": {
+    "package_manager": "mamba (preferred) or conda",
+    "python_version": "3.10+",
+    "key_dependencies": ["fastmcp", "rdkit", "torch", "sklearn", "matplotlib"],
+    "environment_setup": "Create conda environment with mamba/conda",
+    "mcp_registration": "Use fastmcp install or claude mcp add"
+  },
+  "usage_examples": [
+    {
+      "scenario": "Quick permeability prediction",
+      "mcp_prompt": "Calculate membrane permeability for cyclic peptide SMILES: CC(C)C[C@@H]1NC(=O)...",
+      "script_command": "python scripts/predict_membrane_permeability.py --smiles '...'",
+      "expected_output": "PAMPA value approximately -3.9 (range: -6.0 to -3.0)"
+    },
+    {
+      "scenario": "Batch dataset analysis",
+      "mcp_prompt": "Submit comprehensive analysis for @examples/data/sample_small.csv",
+      "script_command": "python scripts/analyze_peptide_properties.py --input examples/data/sample_small.csv",
+      "expected_output": "8 files: 6 visualizations + report + enhanced dataset"
+    },
+    {
+      "scenario": "Model training",
+      "mcp_prompt": "Submit model training for @examples/data/sample_small.csv with 10 epochs",
+      "script_command": "python scripts/train_multicycgt_model.py --input examples/data/sample_small.csv --epochs 10",
+      "expected_output": "PyTorch model file (1.8MB) + training history CSV"
+    },
+    {
+      "scenario": "Virtual screening workflow",
+      "mcp_prompt": "Screen peptides in @examples/data/sample_small.csv for PAMPA > -4.0 and show top candidates",
+      "script_command": "Combined workflow using multiple scripts",
+      "expected_output": "Ranked list of candidates with predicted permeability values"
+    }
+  ],
+  "performance": {
+    "tested_environment": "Ubuntu 20.04, Python 3.10, 19 peptide dataset",
+    "permeability_prediction": "15 seconds",
+    "property_analysis": "45 seconds",
+    "model_training_5_epochs": "30 seconds",
+    "scaling": "Linear with peptide count for prediction, quadratic for analysis"
+  },
+  "testing": {
+    "server_verified": true,
+    "tool_count": 8,
+    "scripts_tested": true,
+    "sample_data_verified": true,
+    "mcp_registration_tested": true,
+    "claude_code_compatible": true
+  },
+  "architecture": {
+    "model_type": "Multi_CycGT (Graph Convolutional Networks + Transformer)",
+    "input_types": ["SMILES strings", "amino acid sequences", "CSV files"],
+    "output_types": ["PAMPA values", "molecular properties", "trained models", "visualizations"],
+    "job_system": "Background process execution with persistence"
+  },
+  "dataset_info": {
+    "source": "CycPeptMPDB (Cyclic Peptide Membrane Permeability Database)",
+    "amino_acid_vocabulary": [
+      "Standard: A, R, N, D, C, Q, E, G, H, I, L, K, M, F, P, S, T, W, Y, V",
+      "N-methylated: meA, meL, meF",
+      "D-forms: dP, dL",
+      "Modified: Me_dL"
+    ],
+    "target_range": "PAMPA values from -6.0 to -3.0",
+    "molecular_descriptors": "100+ RDKit descriptors including MolWt, LogP, TPSA"
+  }
+}
